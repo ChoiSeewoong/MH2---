@@ -17,6 +17,8 @@ class Shoppingmall {
     Product('반바지', 38000),
     Product('양말', 5000),
   ];
+
+  List<String> cartItems = []; //장바구니에 담긴 상품 이름
   int total = 0;
 
   // 상품 목록을 출력하는 함수
@@ -41,7 +43,14 @@ class Shoppingmall {
       int count = int.parse(inputcount); // 입력받은 문자열을 정수로 변환
       if (count > 0) {
         total += (product.price * count);
+
+        //추가된 코드 시작
+        for (var i = 0; i < count; i++) {
+          cartItems.add(product.name);
+        }
         print('장바구니에 상품이 추가되었습니다.');
+
+        //추가된 코드('장바구니에 상품이 추가되었습니다.');
       } else {
         print('상품 개수는 1개 이상이어야 합니다.');
       }
@@ -51,7 +60,22 @@ class Shoppingmall {
   }
 
   void showTotal() {
+    if (cartItems.isEmpty) {
+      print('장바구니에 담긴 상품이 없습니다.');
+    } else {
+      String items = cartItems.join(',');
+      print('장바구니에 담긴 상품: $items');
+    }
     print('장바구니에 담긴 상품의 총 가격은 $total원 입니다.');
+  }
+
+  void clearCart() {
+    if (total == 0) {
+      print('장바구니에 담긴 상품이 없습니다.');
+    } else {
+      total = 0;
+      print('장바구니가 초기화 되었습니다.');
+    }
   }
 }
 
@@ -86,6 +110,9 @@ void main() {
         } else {
           print('프로그램이 종료되지 않습니다.');
         }
+        break;
+      case '6': //'6' 입력시 장바구니 초기화
+        shoppingmall.clearCart();
         break;
       default:
         print('지원하지 않는 기능입니다! 다시 시도해주세요...');
